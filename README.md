@@ -1,5 +1,7 @@
 # EventFlow
 
+[![EventFlow CI/CD](https://github.com/Takwa-ben-abdessalem/PROJET_M2_LDF_MARS_AVRIL/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/Takwa-ben-abdessalem/PROJET_M2_LDF_MARS_AVRIL/actions/workflows/ci-cd.yml)
+
 EventFlow est une plateforme MVP de gestion d'evenements professionnels avec une API Symfony, un frontend Vue 3 et une partie RGPD visible dans l'application.
 
 ## Prerequis
@@ -42,7 +44,7 @@ Variables importantes :
 - `APP_SECRET` : secret Symfony utilise aussi pour hasher les IP RGPD.
 - `JWT_SECRET_KEY`, `JWT_PUBLIC_KEY`, `JWT_PASSPHRASE` : configuration Lexik JWT.
 - `CORS_ALLOW_ORIGIN` : origine du frontend.
-- `ORGANIZER_INVITE_CODE` : code exige pour creer un compte organisateur. Valeur demo par defaut : `eventflow-organizer`.
+- `ORGANIZER_INVITE_CODE` : code exige pour creer un compte organisateur. Valeur par defaut : `eventflow-organizer`.
 
 ## Installation frontend
 
@@ -140,6 +142,18 @@ php bin/phpunit
 ```
 
 Les tests couvrent l'authentification, le CRUD evenement, l'inscription, l'anonymisation et les logs RGPD.
+
+## CI/CD GitHub Actions
+
+Le workflow `.github/workflows/ci-cd.yml` se lance a chaque push ou pull request sur `main`.
+
+Il verifie :
+
+- backend Symfony : installation Composer, generation des cles JWT de test, lint du container, validation Doctrine et PHPUnit ;
+- frontend Vue : installation npm et build Vite ;
+- delivery Docker : validation `docker compose config` et build des images Docker.
+
+Sur la branche `main`, le build frontend est aussi publie comme artifact GitHub Actions.
 
 ## Commande RGPD
 
