@@ -1,0 +1,16 @@
+parameters:
+  app.secret: '%env(APP_SECRET)%'
+  app.default_organizer_invite_code: 'eventflow-organizer'
+  app.organizer_invite_code: '%env(default:app.default_organizer_invite_code:ORGANIZER_INVITE_CODE)%'
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\:
+    resource: '../src/'
+
+  App\Service\ConsentLogger:
+    arguments:
+      $appSecret: '%app.secret%'

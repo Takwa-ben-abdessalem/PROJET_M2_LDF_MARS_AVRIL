@@ -1,0 +1,191 @@
+@baseUrl = http://localhost:8000/api
+@userEmail = user.eventflow@example.com
+@organizerEmail = organizer.eventflow@example.com
+@password = Password123!
+@token = change-me
+@organizerToken = change-me
+@eventId = 1
+@registrationId = 1
+@organizerInviteCode = eventflow-organizer
+
+### Register user
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "{{userEmail}}",
+  "password": "{{password}}",
+  "firstName": "User",
+  "lastName": "Demo",
+  "phone": "0600000000",
+  "consentAccepted": true,
+  "consentVersion": "v1.0",
+  "roles": ["ROLE_USER"]
+}
+
+### Register organizer
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "{{organizerEmail}}",
+  "password": "{{password}}",
+  "firstName": "Orga",
+  "lastName": "Demo",
+  "consentAccepted": true,
+  "consentVersion": "v1.0",
+  "roles": ["ROLE_ORGANIZER"],
+  "organizerInviteCode": "{{organizerInviteCode}}"
+}
+
+### Login user
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{userEmail}}",
+  "password": "{{password}}"
+}
+
+### Login organizer
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{organizerEmail}}",
+  "password": "{{password}}"
+}
+
+### List published events
+GET {{baseUrl}}/events
+
+### Create event
+POST {{baseUrl}}/events
+Authorization: Bearer {{organizerToken}}
+Content-Type: application/json
+
+{
+  "title": "Forum Lead Dev",
+  "description": "Rencontre professionnelle autour du developpement full stack.",
+  "eventDate": "2026-07-12T09:30:00+02:00",
+  "location": "Paris",
+  "maxParticipants": 80,
+  "isPublished": true
+}
+
+### Event detail
+GET {{baseUrl}}/events/{{eventId}}
+
+### Update event
+PUT {{baseUrl}}/events/{{eventId}}
+Authorization: Bearer {{organizerToken}}
+Content-Type: application/json
+
+{
+  "title": "Forum Lead Dev 2026",
+  "isPublished": true
+}
+
+### Delete event
+DELETE {{baseUrl}}/events/{{eventId}}
+Authorization: Bearer {{organizerToken}}
+
+### Register to event
+POST {{baseUrl}}/events/{{eventId}}/register
+Authorization: Bearer {{token}}
+
+### My registrations
+GET {{baseUrl}}/me/registrations
+Authorization: Bearer {{token}}
+
+### Cancel registration
+DELETE {{baseUrl}}/registrations/{{registrationId}}
+Authorization: Bearer {{token}}
+
+### My profile
+GET {{baseUrl}}/me
+Authorization: Bearer {{token}}
+
+### Update my profile
+PUT {{baseUrl}}/me
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "firstName": "User Updated",
+  "lastName": "Demo",
+  "phone": null
+}
+
+### Consent logs
+GET {{baseUrl}}/me/consent-logs
+Authorization: Bearer {{token}}
+
+### Get cookie preferences
+GET {{baseUrl}}/me/cookie-preferences
+Authorization: Bearer {{token}}
+
+### Update cookie preferences
+PUT {{baseUrl}}/me/cookie-preferences
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "necessary": true,
+  "statistics": true,
+  "marketing": false
+}
+
+### Store consent withdrawal
+POST {{baseUrl}}/consent
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "action": "consent_withdrawn",
+  "details": "Retrait demande depuis l espace personnel."
+}
+
+### Export personal data
+GET {{baseUrl}}/me/export
+Authorization: Bearer {{token}}
+
+### Anonymize account
+DELETE {{baseUrl}}/me
+Authorization: Bearer {{token}}
+
+### Error 401 - missing JWT
+GET {{baseUrl}}/me
+
+### Error 403 - user creates event without organizer role
+POST {{baseUrl}}/events
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Forbidden",
+  "description": "Should fail",
+  "eventDate": "2026-07-12T09:30:00+02:00",
+  "location": "Paris",
+  "maxParticipants": 20,
+  "isPublished": true
+}
+
+### Error 404 - unknown event
+GET {{baseUrl}}/events/999999
+
+### Error 409 - duplicate registration
+POST {{baseUrl}}/events/{{eventId}}/register
+Authorization: Bearer {{token}}
+
+### Error 422 - missing consent
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "invalid@example.com",
+  "password": "{{password}}",
+  "firstName": "Invalid",
+  "lastName": "Consent",
+  "consentAccepted": false
+}
