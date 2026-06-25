@@ -11,11 +11,15 @@ final class Version20260624000300 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Align generated Doctrine index names and MySQL column definitions';
+        return 'Align generated Doctrine index names and MariaDB column definitions';
     }
 
     public function up(Schema $schema): void
     {
+        if ($this->connection->getDatabasePlatform()->getName() !== 'mysql') {
+            return;
+        }
+
         $this->addSql('CREATE INDEX IDX_30113729A76ED395 ON consent_log (user_id)');
         $this->addSql('DROP INDEX idx_consent_log_user ON consent_log');
         $this->addSql('CREATE INDEX IDX_3BAE0AA7876C4DDA ON event (organizer_id)');
@@ -29,6 +33,10 @@ final class Version20260624000300 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
+        if ($this->connection->getDatabasePlatform()->getName() !== 'mysql') {
+            return;
+        }
+
         $this->addSql('CREATE INDEX idx_consent_log_user ON consent_log (user_id)');
         $this->addSql('DROP INDEX IDX_30113729A76ED395 ON consent_log');
         $this->addSql('CREATE INDEX idx_event_organizer ON event (organizer_id)');
