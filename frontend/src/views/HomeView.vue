@@ -1,16 +1,21 @@
 <template>
-  <section class="home-welcome">
-    <div class="welcome-copy">
-      <span class="eyebrow">Plateforme de gestion d'evenements</span>
-      <h1>Bienvenue sur EventFlow</h1>
-      <p class="home-lead">
-        Creez, publiez et suivez vos evenements depuis une interface simple, avec les inscriptions et les actions RGPD au meme endroit.
+  <section class="home-illustrated">
+    <div class="home-story">
+      <span class="eyebrow">Organisation d'evenements</span>
+      <h1>EventFlow</h1>
+      <p>
+        Creez vos evenements, suivez les inscriptions et gardez toutes les informations importantes au meme endroit.
       </p>
+      <div class="hero-proof" aria-label="Fonctionnalites principales">
+        <span>Evenements</span>
+        <span>Inscriptions</span>
+        <span>Profil</span>
+        <span>Confidentialite</span>
+      </div>
 
       <div v-if="!auth.isAuthenticated" class="actions">
         <RouterLink class="button" to="/register">Creer un compte</RouterLink>
         <RouterLink class="button ghost" to="/login">Se connecter</RouterLink>
-        <RouterLink class="button soft" to="/privacy">Confidentialite</RouterLink>
       </div>
       <div v-else class="actions">
         <RouterLink class="button" to="/dashboard">Ouvrir mon espace</RouterLink>
@@ -19,49 +24,58 @@
       </div>
     </div>
 
-    <aside class="welcome-panel" aria-label="Resume EventFlow">
-      <div class="welcome-panel-header">
-        <span class="status-dot"></span>
-        <strong>EventFlow</strong>
+    <div class="hero-illustration" aria-hidden="true">
+      <div class="analytics-board">
+        <div class="board-row">
+          <div class="check-list">
+            <span></span><span></span><i></i>
+            <span></span><span></span><i></i>
+            <span></span><span></span><i></i>
+          </div>
+          <div class="donut-card">
+            <div class="donut"></div>
+            <div class="chart-lines">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+        <div class="line-chart">
+          <span></span>
+        </div>
+        <div class="mail-row">
+          <div class="mail-icon"></div>
+          <div class="mail-lines">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
       </div>
 
-      <div class="welcome-summary">
-        <div>
-          <span>Acces public</span>
-          <strong>Evenements publies</strong>
-        </div>
-        <div>
-          <span>Espace connecte</span>
-          <strong>Inscriptions et profil</strong>
-        </div>
-        <div>
-          <span>Organisateur</span>
-          <strong>Brouillons, publication, suppression</strong>
-        </div>
-      </div>
-    </aside>
+      <div class="calendar-card"></div>
+      <div class="gear one"></div>
+      <div class="target-ring"></div>
+    </div>
   </section>
 
-  <section class="home-workflow" aria-label="Fonctionnement EventFlow">
+  <section class="home-modules" aria-label="Modules EventFlow">
     <article>
-      <span>01</span>
-      <h2>Creer un compte</h2>
-      <p>Le consentement RGPD est demande clairement a l'inscription.</p>
+      <strong>Creer</strong>
+      <p>Publication, brouillons, modification et suppression par organisateur.</p>
     </article>
     <article>
-      <span>02</span>
-      <h2>Participer</h2>
-      <p>Un utilisateur connecte peut s'inscrire puis annuler son inscription.</p>
+      <strong>Participer</strong>
+      <p>Inscription utilisateur, suivi personnel et annulation possible.</p>
     </article>
     <article>
-      <span>03</span>
-      <h2>Organiser</h2>
-      <p>Un organisateur gere ses evenements publies et ses brouillons.</p>
+      <strong>Gerer ses donnees</strong>
+      <p>Acces au profil, modification, export et anonymisation du compte.</p>
     </article>
     <article>
-      <span>04</span>
-      <h2>Controler ses donnees</h2>
-      <p>Le profil permet de consulter, modifier, exporter ou anonymiser les donnees.</p>
+      <strong>Organiser</strong>
+      <p>Espace dedie pour gerer uniquement ses propres evenements.</p>
     </article>
   </section>
 </template>
